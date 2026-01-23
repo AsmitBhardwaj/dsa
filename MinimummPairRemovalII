@@ -1,0 +1,81 @@
+import java.util.*;
+
+class Solution {
+    class Pair implements Comparable<Pair> {
+        long sum;
+        int leftIdx;
+        int version;
+
+        Pair(long sum, int leftIdx, int version) {
+            this.sum = sum;
+            this.leftIdx = leftIdx;
+            this.version = version;
+        }
+
+        @Override
+        public int compareTo(Pair other) {
+            if (this.sum != other.sum) return Long.compare(this.sum, other.sum);
+            // Must choose the leftmost index for ties
+            return Integer.compare(this.leftIdx, other.leftIdx);
+        }
+    }
+
+    public int minimumPairRemoval(int[] nums) {
+        int n = nums.length;
+        if (n < 2) return 0; //
+
+        long[] val = new long[n];
+        int[] prev = new int[n], next = new int[n], nodeVersion = new int[n];
+        int violations = 0;
+        PriorityQueue<Pair> pq = new PriorityQueue<>();
+
+        for (int i = 0; i < n; i++) {
+            val[i] = nums[i];
+            prev[i] = i - 1;
+            next[i] = (i == n - 1) ? -1 : i + 1;
+        }
+
+        for (int i = 0; i < n - 1; i++) {
+            pq.offer(new Pair(val[i] + val[i + 1], i, 0));
+            if (val[i] > val[i + 1]) violations++; //
+        }
+
+        int ops = 0;
+        while (violations > 0 && !pq.isEmpty()) {
+            Pair curr = pq.poll();
+            int L = curr.leftIdx;
+            
+            // 1. Strict Validation
+            if (next[L] == -1 || nodeVersion[L] != curr.version) continue;
+            int R = next[L];
+            if (val[L] + val[R] != curr.sum) continue;
+
+            // 2. Clear all violations in the affected zone (LL-L, L-R, R-RR)
+            int LL = prev[L], RR = next[R];
+            if (LL != -1 && val[LL] > val[L]) violations--;
+            if (val[L] > val[R]) violations--;
+            if (RR != -1 && val[R] > val[RR]) violations--;
+
+            // 3. Perform Merge
+            val[L] += val[R];
+            ops++;
+            nodeVersion[L]++; 
+            
+            // 4. Update Links
+            next[L] = RR;
+            if (RR != -1) prev[RR] = L;
+
+            // 5. Re-add violations in the new zone (LL-L, L-RR)
+            if (LL != -1 && val[LL] > val[L]) violations++;
+            if (RR != -1 && val[L] > val[RR]) violations++;
+
+            // 6. Queue new pairs and update versions
+            pq.offer(new Pair(val[L] + (RR != -1 ? val[RR] : 0), L, nodeVersion[L]));
+            if (LL != -1) {
+                nodeVersion[LL]++; // Invalidate old pairs where LL was the left side
+                pq.offer(new Pair(val[LL] + val[L], LL, nodeVersion[LL]));
+            }
+        }
+        return ops;
+    }
+}
