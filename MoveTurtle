@@ -1,0 +1,30 @@
+from turtle import Turtle, Screen
+
+tim = Turtle()
+screen = Screen()
+
+#when user presses w
+def move_forwards():
+    tim.forward(10)
+
+#when user presses s
+def move_backwards():
+    tim.backward(10)
+
+#def user presses a
+def move_rightwards():
+    tim.right(90)
+    tim.forward(10)
+
+#when user presse d
+def move_leftwards():
+    tim.left(90)
+    tim.forward(10)
+
+screen.listen()
+screen.onkey(move_forwards, "w")
+screen.onkey(move_rightwards, "a")
+screen.onkey(move_leftwards, "d")
+screen.onkey(move_backwards, "s")
+
+screen.exitonclick()
