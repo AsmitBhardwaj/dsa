@@ -1,0 +1,14 @@
+# SESSION_START Sa077fc6b FILE:MyString.log PROJECT:CHashMap
+1668643:I:0:<html>\n\n<head>\n<link href="../../css/google-code-prettify/prettify.css" type="text/css" rel="stylesheet" />\n<script type="text/javascript" src="../../css/google-code-prettify/prettify.js"></script>\n</head>\n\n<body onload="prettyPrint()">\n\n<pre class="prettyprint">\n/**\n * Implementation of a String wrapper to be used for testing\n * the Hash Table. Changes the default hash code implementation. \n */\n\npublic class MyString\n{\n    /**\n     * the string representative\n     */\n    private String str;\n\n    /**\n     * Creates a new string wrapper based on the given string.\n     *\n     * @param s   the string representative\n     */\n    public MyString(String s)\n    {\n        str = s;\n    }\n\n    /**\n     * Returns a hash code for this string\c\n     * - if the string starts with a digit, the digit's multiple of 10\n     *   is added to the length of the string (ignoring the digit)\n     * - otherwise the length of the string is returned\n     *\n     * For example\c "cat"=3, "1cat"=13, "2cat"=23, ..., "9cat"=93\n     *\n     * @return a hash code for this string\n     */\n    @Override\n    public int hashCode()\n    {\n char firstChar = str.charAt(0);\n        if (Character.isDigit(firstChar)) {\n     int value = Character.getNumericValue(firstChar);\n     return  10*value + (str.length() - 1);\n }\n else {\n     return str.length();\n }\n    }\n\n    /**\n     * Returns a string representation of this string.\n     *\n     * @return a string representation of this string\n     */\n    @Override\n    public String toString()\n    {\n        return str;\n    }\n\n    /**\n     * Checks if the given object is equal to this string wrapper.\n     *\n     * @param other   the object to compare with\n     * @return true if the given object is equal to this string wrapper\n     */\n    @Override\n    public boolean equals(Object other)\n    {\n        if (other == this) {\n            return true;\n        }\n        else if ( !(other instanceof MyString) ) {\n            return false;\n        }\n        else {\n            MyString otherStr = (MyString) other;\n            return this.str.equals(otherStr.str);\n        }\n    }\n}\n</pre>\n\n</body>\n</html>\n
+# SESSION_START S9eca3367 FILE:MyString.log PROJECT:CHashMap
+5300551:D:0:263
+5303389:D:1832:25
+5303719:I:1832:}
+5306833:D:0:1
+5383151:I:848:       
+5385126:I:936:       
+5385756:I:998:       
+5386369:I:1045:       
+5386948:I:1055:       
+5387323:I:1074:       
+5387970:I:1103:       
