@@ -1,0 +1,39 @@
+import java.util.Scanner;
+
+public class pizza {
+    public static void main(String[] args) {
+        Scanner sc = new Scanner(System.in);
+
+        //get the number of pizzasa
+        int n = sc.nextInt();
+
+        //initialize size of slices
+        int sumS = 0
+        int sumM = 0
+        int sumL = 0;
+
+        //take in the slices 
+        for (int i = 0; i < n; i++) {
+            String size = sc.next();
+            int slices = sc.nextInt();
+
+            if (size.equals("S")) {
+                sumS += slices;
+            } else if (size.equals("M")) {
+                sumM += slices;
+            } else {
+                sumL += slices;
+            }
+        }
+
+        int boxes = 0;
+
+        boxes += (sumS + 5) / 6;   // ceil(sumS / 6)
+        boxes += (sumM + 7) / 8;   // ceil(sumM / 8)
+        boxes += (sumL + 11) / 12; // ceil(sumL / 12)
+
+        System.out.println(boxes);
+
+        sc.close();
+    }
+}
